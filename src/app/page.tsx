@@ -70,7 +70,7 @@ export default function Home() {
     alert("Error occured in retrieving current location");
   }
 
-    navigator.geolocation.getCurrentPosition(allowMe(), denyMe());
+    // navigator.geolocation.getCurrentPosition(allowMe(), denyMe());
 
 
   return (
