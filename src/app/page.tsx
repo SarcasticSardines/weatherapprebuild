@@ -1,113 +1,138 @@
-import Image from "next/image";
+'use client'
+
+import { Button, TextInput } from "flowbite-react";
+import navi from '../assets/navIcon tspt.png'
+import NavbarComponent from "./components/NavbarComponent";
+import ForecastComponent from "./components/ForecastComponent";
+import { useState } from "react";
+import { Iweather } from "@/Interfaces/Interfaces";
 
 export default function Home() {
+
+  const weatherDefault = {
+    weather: [
+      {
+          main: "",
+          description: ""
+      }
+  ],
+  main: {
+      temp: 0,
+      feels_like: 0,
+      temp_min: 0,
+      temp_max: 0,
+      humidity: 0
+  },
+  visibility: 0,
+  wind: {
+      speed: 0
+  }
+  }
+
+  
+  const [lat, setLat] = useState<Iweather>();
+  const [lon, setLon] = useState<Iweather>();
+  const [mainT, setMainT] = useState<Iweather>();
+  const [highT, setHighT] = useState<Iweather>();
+  const [lowT, setLowT] = useState<Iweather>();
+  const [feels, setFeels] = useState<Iweather>();
+  const [mainD, setMainD] = useState<Iweather>();
+  const [detailed, setDetailed] = useState<Iweather>();
+  const [humid, setHumid] = useState<Iweather>();
+  const [visible, setVisible] = useState<Iweather>();
+  const [windy, setWindy] = useState<Iweather>();
+
+
+  
+  const randLat = () => {
+    let anyLat: any = (Math.random()*180).toFixed(3);
+    let NegPos = Math.floor(Math.random());
+    if(NegPos == 0){
+      anyLat = anyLat *-1;
+    }
+    return anyLat
+  }
+
+  const randLon = () => {
+    let anyLon: any = (Math.random()*180).toFixed(3);
+    let PosNeg = Math.floor(Math.random());
+    if(PosNeg == 0){
+        anyLon = anyLon *-1;
+    }
+    return anyLon
+  }
+
+  const allowMe = (position: any) => {
+    setLat(position.coords.latitude);
+    setLon(position.coords.longitude);
+  }
+  const denyMe = () => {
+    alert("Error occured in retrieving current location");
+  }
+
+    navigator.geolocation.getCurrentPosition(allowMe(), denyMe());
+
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div>
+
+      {/* "navbar" */}
+      <NavbarComponent/>
+
+      <div className="flex justify-center">
+        <hr />
+      </div>
+
+      <div className='flex justify-center mt-9 mb-0'>
+        <input type="text" className="mx-1 inputs" />
+        <button className="mx-1 wBtn">
+          <span className="text-3xl text-white">Go</span>  </button>
+      </div>
+
+      <div className='lg:flex lg:justify-evenly mb-10 mt-1 mx-12'>
+        <div className='circle my-10'>
+          {/* circle div */}
+          <h2 className='text-center my-9 text-4xl'>100°/110°</h2>
+          <h1 className='text-center my-9 text-6xl'>100°</h1>
+          <h2 className='text-center my-9 text-4xl'>feelslike°</h2>
+        </div>
+
+        <div className="my-1 mx-8 ">
+          {/* 3 rows 2 cols, 6 items total */}
+
+          <div className="grid grid-cols-2 gap-28 my-[70px]">
+            <div className="grid">
+              <p className="text-4xl">Humidity: 100%</p>
+            </div>
+            <div className="grid text-4xl col-start-2">
+              <p>Main Description</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-28 my-[70px] ms-9">
+            <div className="grid">
+              <p className="text-4xl">Visibility: 10000m</p>
+            </div>
+            <div className="grid text-4xl col-start-2">
+              <p>Detailed Description</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-28 my-[70px]">
+            <div className="grid">
+              <p className="text-4xl">Wind Speed: 50mph</p>
+            </div>
+            <div className="flex text-4xl">
+              <p>Truth or Consequences, NM</p>
+              <img src={navi.src} alt="geolocator icon" className="iconXS" />
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      <ForecastComponent/>
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   );
 }

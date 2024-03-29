@@ -2,32 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+@font-face {
+  font-family: Julius;
+  src: url(../assets/JuliusSansOne-Regular.ttf);
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+hr{
+  border: black 1px solid;
+  width: 75%;
 }
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.iconS {
+  width: 70px;
 }
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.bigT {
+  font-family: Julius;
+  font-size: 72px;
+}
+.circle{
+  padding: 10px;
+  border-color: #F1BC00;
+  border-width: 15px;
+  border-radius: 50%;
+  width: 350px;
+  height: 350px;
+}
+.iconXS {
+  width: 40px;
+}
+.inputs{
+  width: 25%;
+  height: 80px;
+  border-radius: 15px;
+  border-color: black;
+  border-width: 2px;
+}
+.wBtn{
+  width: 100px;
+  border-radius: 15px;
+  border-color: black;
+  border-width: 2px;
+  background-color: #595959;
+}
+.wBtn:hover{
+  background-color: #3d3d3d;
+}
+.gradiv{
+  background-image: linear-gradient(#FBFBFB, #9BD5FF);
 }
