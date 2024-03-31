@@ -64,13 +64,20 @@ export default function Home() {
   }
 
 
-  // const searchFill = async () => {
-  //   let search = e.target.value;
-  //   if(search != ""){
-  //     city = search;
-  //     const fillData = await getGeo(city);
-  //   }
-  // }
+//   const searchFill = async () => {
+//     let search = e.target.value;
+//     let locateData;
+//     if(search != ""){
+//       city = search;
+//       const fillData = await getGeo(city);
+//       let storeMe = []
+//       for(let i = 0; i<locateData.length; i++){
+//         storeMe.push(locateData[i].name + ", " + locateData[i].state + ", " + locateData[i].lat + ", " + locateData[i].lon)
+//       }
+
+
+// ;    }
+//   }
 
 
   // useEffect(() => {
