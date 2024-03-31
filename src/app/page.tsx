@@ -4,87 +4,136 @@ import { Button, TextInput } from "flowbite-react";
 import navi from '../assets/navIcon tspt.png'
 import NavbarComponent from "./components/NavbarComponent";
 import ForecastComponent from "./components/ForecastComponent";
-import { useState } from "react";
-import { Iweather } from "@/Interfaces/Interfaces";
+import { useEffect, useState } from "react";
+import { Iforecast, Igeo, Ireverse, Iweather } from "@/Interfaces/Interfaces";
+import { getCurrent, getForecast, getGeo, getLocation } from "@/utils/DataServices";
 
 export default function Home() {
 
-  const weatherDefault = {
-    weather: [
-      {
-          main: "",
-          description: ""
-      }
-  ],
-  main: {
-      temp: 0,
-      feels_like: 0,
-      temp_min: 0,
-      temp_max: 0,
-      humidity: 0
-  },
-  visibility: 0,
-  wind: {
-      speed: 0
-  }
-  }
 
-  
-  const [lat, setLat] = useState<Iweather>();
-  const [lon, setLon] = useState<Iweather>();
-  const [mainT, setMainT] = useState<Iweather>();
-  const [highT, setHighT] = useState<Iweather>();
-  const [lowT, setLowT] = useState<Iweather>();
-  const [feels, setFeels] = useState<Iweather>();
-  const [mainD, setMainD] = useState<Iweather>();
-  const [detailed, setDetailed] = useState<Iweather>();
-  const [humid, setHumid] = useState<Iweather>();
-  const [visible, setVisible] = useState<Iweather>();
-  const [windy, setWindy] = useState<Iweather>();
+  const [lat, setLat] = useState<number>(0);
+  const [lon, setLon] = useState<number>(0);
+  const [here, setHere] = useState();
+  const [temp, setTemp] = useState<Iweather>();
+  const [loca, setLoca] = useState<Ireverse>();
+  const [geol, setGeol] = useState<Igeo[]>();
+  const [fore, setFore] = useState<Iforecast>();
+  const [city, setCity] = useState<string | undefined>();
+  const [dayy, setDayy] = useState<string>();
+
+  // const [mainT, setMainT] = useState<Iweather>();
+  // const [highT, setHighT] = useState<Iweather>();
+  // const [lowT, setLowT] = useState<Iweather>();
+  // const [feels, setFeels] = useState<Iweather>();
+  // const [mainD, setMainD] = useState<Iweather>();
+  // const [detailed, setDetailed] = useState<Iweather>();
+  // const [humid, setHumid] = useState<Iweather>();
+  // const [visible, setVisible] = useState<Iweather>();
+  // const [windy, setWindy] = useState<Iweather>();
 
 
-  
-  const randLat = () => {
-    let anyLat: any = (Math.random()*180).toFixed(3);
-    let NegPos = Math.floor(Math.random());
-    if(NegPos == 0){
-      anyLat = anyLat *-1;
-    }
-    return anyLat
-  }
 
-  const randLon = () => {
-    let anyLon: any = (Math.random()*180).toFixed(3);
-    let PosNeg = Math.floor(Math.random());
-    if(PosNeg == 0){
-        anyLon = anyLon *-1;
-    }
-    return anyLon
-  }
+  // const randLat = () => {
+  //   let anyLat: any = (Math.random()*180).toFixed(3);
+  //   let NegPos = Math.floor(Math.random());
+  //   if(NegPos == 0){
+  //     anyLat = anyLat *-1;
+  //   }
+  //   return anyLat
+  // }
 
-  const allowMe = (position: any) => {
+  // const randLon = () => {
+  //   let anyLon: any = (Math.random()*180).toFixed(3);
+  //   let PosNeg = Math.floor(Math.random());
+  //   if(PosNeg == 0){
+  //       anyLon = anyLon *-1;
+  //   }
+  //   return anyLon
+  // }
+
+  // const theDate = () => {
+  //   const twoday = new Date(fore?.list[0].dt *1000)
+  // }
+
+  const allowMe: PositionCallback = (position) => {
     setLat(position.coords.latitude);
     setLon(position.coords.longitude);
   }
   const denyMe = () => {
-    alert("Error occured in retrieving current location");
+    alert("Error occured in retrieving current location.");
   }
 
-    // navigator.geolocation.getCurrentPosition(allowMe(), denyMe());
+
+  // const searchFill = async () => {
+  //   let search = e.target.value;
+  //   if(search != ""){
+  //     city = search;
+  //     const fillData = await getGeo(city);
+  //   }
+  // }
+
+
+  // useEffect(() => {
+    // const weatherNow = () => {
+      // navigator.geolocation.getCurrentPosition(allowMe, denyMe )
+      // setLat(coords.latitude);
+      // setLon(coords.longitude);
+      // setHere({ lat, lon })
+      // if (here) {
+      //   getLocation(lat, lon);
+      // }
+    // }
+    // weatherNow();
+  // }, []);
+
+
+  useEffect(() => {
+
+    navigator.geolocation.getCurrentPosition(allowMe, denyMe)
+
+    const getWData = async (lat: number, lon: number) => {
+      const weatherData = await getCurrent(lat, lon);
+      setTemp(weatherData);
+    }
+    
+    const getRData = async (lat: number, lon: number) => {
+      const locateData = await getLocation(lat, lon);
+        setLoca(locateData);
+        setCity(loca?.name);
+      console.log(loca);
+    }
+
+    const getGData = async (city: string) => {
+      const geoData = await getGeo(city);
+      setGeol(geoData);
+    }
+
+    const getFData = async (lat: number, lon: number) => {
+      const forecastData = await getForecast(lat, lon);
+      setFore(forecastData);
+    }
+
+    getWData(lat, lon);
+    getRData(lat, lon);
+    // getGData(city);
+    // type string | undefined error....
+    getFData(lat, lon);
+
+  }, []);
 
 
   return (
     <div>
 
       {/* "navbar" */}
-      <NavbarComponent/>
+      <NavbarComponent />
 
       <div className="flex justify-center">
         <hr />
       </div>
 
       <div className='flex justify-center mt-9 mb-0'>
-        <input type="text" className="mx-1 inputs" />
+        <input type="text" className="mx-1 inputs"  />
         <button className="mx-1 wBtn">
           <span className="text-3xl text-white">Go</span>  </button>
       </div>
@@ -92,9 +141,9 @@ export default function Home() {
       <div className='lg:flex lg:justify-evenly mb-10 mt-1 mx-12'>
         <div className='circle my-10'>
           {/* circle div */}
-          <h2 className='text-center my-9 text-4xl'>100°/110°</h2>
-          <h1 className='text-center my-9 text-6xl'>100°</h1>
-          <h2 className='text-center my-9 text-4xl'>feelslike°</h2>
+          <h2 className='text-center my-9 text-4xl'>{temp?.main.temp_max + "°" + "/" + temp?.main.temp_min + "°"}</h2>
+          <h1 className='text-center my-9 text-6xl'>{temp?.main.temp + "°"}</h1>
+          <h2 className='text-center my-9 text-4xl'>{temp?.main.feels_like + "°"}</h2>
         </div>
 
         <div className="my-1 mx-8 ">
@@ -102,35 +151,36 @@ export default function Home() {
 
           <div className="grid grid-cols-2 gap-28 my-[70px]">
             <div className="grid">
-              <p className="text-4xl">Humidity: 100%</p>
+              <p className="text-4xl">{"Humidity: " + temp?.main.humidity + "%"}</p>
             </div>
             <div className="grid text-4xl col-start-2">
-              <p>Main Description</p>
+              <p>{temp?.weather[0].main}</p>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-28 my-[70px] ms-9">
             <div className="grid">
-              <p className="text-4xl">Visibility: 10000m</p>
+              <p className="text-4xl">{"Visibility: " + temp?.visibility + "m"}</p>
             </div>
             <div className="grid text-4xl col-start-2">
-              <p>Detailed Description</p>
+              <p>{temp?.weather[0].description}</p>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-28 my-[70px]">
             <div className="grid">
-              <p className="text-4xl">Wind Speed: 50mph</p>
+              <p className="text-4xl">{"Wind Speed: " + temp?.wind.speed + "mph"}</p>
             </div>
             <div className="flex text-4xl">
-              <p>Truth or Consequences, NM</p>
+              {/* <p>{geol. + ", " + loca?.state}</p> */}
+              {/* loca?.name undefined, temp?.name only returns global */}
               <img src={navi.src} alt="geolocator icon" className="iconXS" />
             </div>
           </div>
         </div>
       </div>
 
-      <ForecastComponent/>
+      <ForecastComponent Datenow={fore?.list[0].dt_txt} Mainw={fore?.list[0].weather[0].description} Mint={fore?.list[0].main.temp_min} Maxt={fore?.list[0].main.temp_max} IconCode={fore?.list[0].weather[0].icon} />
 
 
     </div>
