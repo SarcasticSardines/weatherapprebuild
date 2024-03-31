@@ -23,6 +23,66 @@ const ForecastComponent = (props: IforecastProps) => {
           </div>
         </div>
 
+        <div className="flex justify-center text-center w-[275px] h-[300px] gradiv">
+          <div className="grid gap-0 mt-6">
+            <h3>{props.Datenow}</h3>
+            <p className='h-[20px]'>{props.Mint}</p>
+            <div className="flex justify-center h-[3px] py-0 my-0">
+            <hr className='w-[50px] py-0 my-0'/>
+            </div>
+            <p className='h-[20px]'>{props.Maxt}</p>
+            <div className="flex justify-center">
+            <img src={holder.src} className='w-20 h-20' />
+            </div>
+            <p>{props.Mainw}</p>
+          </div>
+        </div>
+        
+        <div className="flex justify-center text-center w-[275px] h-[300px] gradiv">
+          <div className="grid gap-0 mt-6">
+            <h3>{props.Datenow}</h3>
+            <p className='h-[20px]'>{props.Mint}</p>
+            <div className="flex justify-center h-[3px] py-0 my-0">
+            <hr className='w-[50px] py-0 my-0'/>
+            </div>
+            <p className='h-[20px]'>{props.Maxt}</p>
+            <div className="flex justify-center">
+            <img src={holder.src} className='w-20 h-20' />
+            </div>
+            <p>{props.Mainw}</p>
+          </div>
+        </div>
+
+        <div className="flex justify-center text-center w-[275px] h-[300px] gradiv">
+          <div className="grid gap-0 mt-6">
+            <h3>{props.Datenow}</h3>
+            <p className='h-[20px]'>{props.Mint}</p>
+            <div className="flex justify-center h-[3px] py-0 my-0">
+            <hr className='w-[50px] py-0 my-0'/>
+            </div>
+            <p className='h-[20px]'>{props.Maxt}</p>
+            <div className="flex justify-center">
+            <img src={holder.src} className='w-20 h-20' />
+            </div>
+            <p>{props.Mainw}</p>
+          </div>
+        </div>
+
+        <div className="flex justify-center text-center w-[275px] h-[300px] gradiv">
+          <div className="grid gap-0 mt-6">
+            <h3>{props.Datenow}</h3>
+            <p className='h-[20px]'>{props.Mint}</p>
+            <div className="flex justify-center h-[3px] py-0 my-0">
+            <hr className='w-[50px] py-0 my-0'/>
+            </div>
+            <p className='h-[20px]'>{props.Maxt}</p>
+            <div className="flex justify-center">
+            <img src={holder.src} className='w-20 h-20' />
+            </div>
+            <p>{props.Mainw}</p>
+          </div>
+        </div>
+
 
       </div>
   )
